@@ -1,0 +1,43 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+group = 'ru.expertek.msmz'
+version = '1.0.0'
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+def springBootVersion = '2.3.2.RELEASE'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
+    implementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly "org.postgresql:postgresql"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+    implementation 'net.minidev:json-smart:2.4.8'
+
+
+}
+
+bootJar {
+    archiveVersion.set('')
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
