@@ -37,7 +37,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .antMatchers("/","/swagger-ui.html/**", "/swagger-resources/**",
                                 "/swagger-ui/**","/v3/api-docs/**",
-                                "/api/anonymous", "/api/login").permitAll()
+                                "/api/anonymous", "/api/login", "/api/refresh_token").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer

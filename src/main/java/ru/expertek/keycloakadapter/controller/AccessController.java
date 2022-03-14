@@ -1,6 +1,5 @@
 package ru.expertek.keycloakadapter.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +20,15 @@ public class AccessController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginForm loginForm) {
+    public ResponseEntity<String> getToken(@RequestBody LoginForm loginForm) {
         logger.info("login: {}, pass: {}", loginForm.getUsername(), loginForm.getPassword());
-        return tokenWorker.obtainNewJSONtoken(loginForm.getUsername(), loginForm.getPassword());
+        return tokenWorker.obtainJWT(loginForm.getUsername(), loginForm.getPassword());
+    }
+
+    @PostMapping("/refresh_token")
+    public ResponseEntity<String> refreshToken(@RequestBody LoginForm loginForm) {
+        logger.info("refreshToken: {}", loginForm.getRefreshToken());
+        return tokenWorker.refreshJWT(loginForm.getRefreshToken());
     }
 
     @GetMapping("/anonymous")
