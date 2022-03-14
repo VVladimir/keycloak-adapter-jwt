@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
         bearerFormat = "JWT"
 )
 @OpenAPIDefinition(
-        info = @Info(title = "adapter", version = "1.0.0",description = "подключение к ресурсу используя токен " ),
+        info = @Info(title = "adapter", version = "1.0.0",description = "подключение к ресурсу используя токен" ),
         security = @SecurityRequirement(name = "bearerAuth")
 )
 public class CustomOpenAPI {

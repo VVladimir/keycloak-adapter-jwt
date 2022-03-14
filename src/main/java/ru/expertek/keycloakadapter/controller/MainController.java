@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-    public class MainController {
+public class MainController {
 
     @GetMapping("_ping")
     public String ping() {
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
     @Hidden
     public ResponseEntity<?> root() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location",  "/swagger-ui.html");
+        headers.add("Location", "/swagger-ui.html");
         return new ResponseEntity<String>(headers, HttpStatus.FOUND);
     }
 }

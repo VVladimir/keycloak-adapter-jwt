@@ -1,6 +1,13 @@
 server:
   port: ${SERVER_PORT:8080}
 
+
+idp:
+  proto: http
+  host: localhost
+  port: 8484
+  url: ${idp.proto}://${idp.host}:${idp.port}
+  realm: my_realm
 spring:
   application.name: ${APPLICATION_NAME:spring-security-keycloak-resource}
   security:
@@ -9,6 +16,10 @@ spring:
         jwt:
           jwk-set-uri: ${KEYCLOAK_REALM_CERT_URL:http://localhost:8484/auth/realms/my_realm/protocol/openid-connect/certs}
 
+      client:
+        clientId: my_client
+        accessTokenUri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/token
+        revokeTokenUri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/revoke
 
 logging:
   level:

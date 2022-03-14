@@ -22,13 +22,23 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
+    /**
+     * "/swagger-ui.html",
+     * "/v3/api-docs/**",
+     * "/swagger-ui/**",
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .antMatchers("/swagger-ui.html","/v3/api-docs/**","/swagger-ui/**","/api/anonymous/**").permitAll()
-                        .anyRequest().authenticated())
+                        .antMatchers("/","/swagger-ui.html/**", "/swagger-resources/**",
+                                "/swagger-ui/**","/v3/api-docs/**",
+                                "/api/anonymous").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer
                         .jwt(jwtConfigurer -> jwtConfigurer
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))
