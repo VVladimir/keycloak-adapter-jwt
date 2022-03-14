@@ -33,10 +33,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .antMatchers("/","/swagger-ui.html/**", "/swagger-resources/**",
                                 "/swagger-ui/**","/v3/api-docs/**",
-                                "/api/anonymous").permitAll()
+                                "/api/anonymous", "/api/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer

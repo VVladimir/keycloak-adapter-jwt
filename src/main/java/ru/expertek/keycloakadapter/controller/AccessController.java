@@ -1,6 +1,8 @@
 package ru.expertek.keycloakadapter.controller;
 
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -8,22 +10,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController
 @RequestMapping("/api")
 public class AccessController {
+    private static final Logger logger = LoggerFactory.getLogger(AccessController.class);
     private final TokenWorker tokenWorker;
 
     public AccessController(TokenWorker tokenWorker) {
         this.tokenWorker = tokenWorker;
     }
-    @PreAuthorize("hasRole('ANONYMOUS')")
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginForm loginForm) {
-        String token = "";
-        System.out.println(loginForm);
-
-        return new ResponseEntity<String>(token, HttpStatus.OK);
+        logger.info("login: {}, pass: {}", loginForm.getUsername(), loginForm.getPassword());
+        return tokenWorker.obtainNewJSONtoken(loginForm.getUsername(), loginForm.getPassword());
     }
 
     @GetMapping("/anonymous")

@@ -28,8 +28,8 @@ public class TokenWorkerImpl implements TokenWorker {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> result = null;
         try {
-//            ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
-            ResponseEntity<String> response = restTemplate.postForEntity(accessTokenUri, null, String.class);
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, null);
+            ResponseEntity<String> response = restTemplate.postForEntity(accessTokenUri, request, String.class);
             result = new ResponseEntity<String>(response.getBody(), null, response.getStatusCode());
         } catch (HttpClientErrorException e) {
             result = new ResponseEntity<String>(e.getMessage(), e.getStatusCode());
@@ -38,18 +38,4 @@ public class TokenWorkerImpl implements TokenWorker {
     }
 
 
-
-    public ResponseEntity<String> restExchangeExt(String uri, MultiValueMap<String, String> map,
-                                                  HttpEntity<MultiValueMap<String, String>> request) {
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> result = null;
-        try {
-            ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
-            result = new ResponseEntity<String>(response.getBody(), null, response.getStatusCode());
-        } catch (HttpClientErrorException e) {
-            result = new ResponseEntity<String>(e.getMessage(), e.getStatusCode());
-        }
-        return result;
-    }
 }
