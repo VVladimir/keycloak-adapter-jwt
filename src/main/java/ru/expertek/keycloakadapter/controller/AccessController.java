@@ -22,13 +22,13 @@ public class AccessController {
     @PostMapping("/login")
     public ResponseEntity<String> getToken(@RequestBody LoginForm loginForm) {
         logger.info("login: {}, pass: {}", loginForm.getUsername(), loginForm.getPassword());
-        return tokenWorker.obtainJWT(loginForm.getUsername(), loginForm.getPassword());
+        return tokenWorker.obtain(loginForm.getUsername(), loginForm.getPassword());
     }
 
     @PostMapping("/refresh_token")
     public ResponseEntity<String> refreshToken(@RequestBody LoginForm loginForm) {
         logger.info("refreshToken: {}", loginForm.getRefreshToken());
-        return tokenWorker.refreshJWT(loginForm.getRefreshToken());
+        return tokenWorker.refresh(loginForm.getRefreshToken());
     }
 
     @GetMapping("/anonymous")

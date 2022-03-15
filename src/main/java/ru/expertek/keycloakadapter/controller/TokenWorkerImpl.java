@@ -16,28 +16,38 @@ public class TokenWorkerImpl implements TokenWorker {
 
     @Value("${spring.security.oauth2.client.clientId}")
     private String clientId;
+    @Value("${spring.security.oauth2.client.client_secret}")
+    private String clientSecret;
 
     @Value("${spring.security.oauth2.client.accessTokenUri}")
     private String accessTokenUri;
 
     @Override
-    public ResponseEntity<String> obtainJWT(String username, String password) {
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+    public ResponseEntity<String> obtain(String username, String password) {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
         map.add("username", username);
         map.add("password", password);
         map.add("client_id", clientId);
+        map.add("client_secret", clientSecret);
 
         return getToken(map);
 
     }
     @Override
-    public ResponseEntity<String> refreshJWT(String refreshToken) {
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("client_id", clientId);
+    public ResponseEntity<String> refresh(String refreshToken) {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "refresh_token");
         map.add("refresh_token", refreshToken);
+        map.add("client_id", clientId);
+        map.add("client_secret", clientSecret);
+
         return getToken(map);
+    }
+
+    @Override
+    public ResponseEntity<String> rewoke(String token) {
+        return null;
     }
 
     private ResponseEntity<String> getToken(MultiValueMap<String, String> map) {

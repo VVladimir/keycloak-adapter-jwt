@@ -8,6 +8,7 @@ idp:
   port: 8484
   url: ${idp.proto}://${idp.host}:${idp.port}
   realm: my_realm
+
 spring:
   application.name: ${APPLICATION_NAME:spring-security-keycloak-resource}
   security:
@@ -18,6 +19,7 @@ spring:
 
       client:
         clientId: my_client
+        client_secret: 8e730d63-911a-4d32-8c15-a52c4be87af4
         accessTokenUri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/token
         revokeTokenUri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/revoke
 
