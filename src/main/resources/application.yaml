@@ -20,8 +20,8 @@ spring:
       client:
         clientId: my_client
         client_secret: 8e730d63-911a-4d32-8c15-a52c4be87af4
-        accessTokenUri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/token
-        revokeTokenUri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/revoke
+        access-token-uri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/token
+        revoke-token-uri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/revoke
 
 logging:
   level:

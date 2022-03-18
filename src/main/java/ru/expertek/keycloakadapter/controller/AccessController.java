@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,10 +26,24 @@ public class AccessController {
         return tokenWorker.obtain(loginForm.getUsername(), loginForm.getPassword());
     }
 
-    @PostMapping("/refresh_token")
-    public ResponseEntity<String> refreshToken(@RequestBody LoginForm loginForm) {
-        logger.info("refreshToken: {}", loginForm.getRefreshToken());
-        return tokenWorker.refresh(loginForm.getRefreshToken());
+    @GetMapping("/refresh_token")
+    public ResponseEntity<String> refreshToken() {
+        String token = getTokenFromCurrentContext();
+        logger.info("refresh token: {}", token);
+        return tokenWorker.refresh(token);
+    }
+
+    @GetMapping("/revoke_token")
+    public ResponseEntity<String> revokeToken() {
+        String token = getTokenFromCurrentContext();
+        logger.info("revoke token: {}", token);
+        return tokenWorker.revoke(token);
+    }
+
+    public String getTokenFromCurrentContext() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Jwt credentials = (Jwt)auth.getCredentials();
+        return credentials.getTokenValue();
     }
 
     @GetMapping("/anonymous")

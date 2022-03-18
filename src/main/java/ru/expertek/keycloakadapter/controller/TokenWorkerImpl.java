@@ -19,8 +19,11 @@ public class TokenWorkerImpl implements TokenWorker {
     @Value("${spring.security.oauth2.client.client_secret}")
     private String clientSecret;
 
-    @Value("${spring.security.oauth2.client.accessTokenUri}")
+    @Value("${spring.security.oauth2.client.access-token-uri}")
     private String accessTokenUri;
+    @Value("${spring.security.oauth2.client.revoke-token-uri}")
+    private String revokeTokenUri;
+
 
     @Override
     public ResponseEntity<String> obtain(String username, String password) {
@@ -46,21 +49,33 @@ public class TokenWorkerImpl implements TokenWorker {
     }
 
     @Override
-    public ResponseEntity<String> rewoke(String token) {
-        return null;
+    public ResponseEntity<String> revoke(String token) {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("token", token);
+        map.add("token_type_hint", "access_token");
+        map.add("client_id", clientId);
+        map.add("client_secret", clientSecret);
+
+        return revokeToken(map);
     }
 
     private ResponseEntity<String> getToken(MultiValueMap<String, String> map) {
-        try {
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, null);
-            ResponseEntity<String> response = restTemplate.postForEntity(accessTokenUri, request, String.class);
-            return new ResponseEntity<String>(response.getBody(), null, response.getStatusCode());
-        } catch (HttpClientErrorException e) {
-            return new ResponseEntity<String>(e.getMessage(), e.getStatusCode());
-        }
+        return execute(accessTokenUri, map);
     }
 
+    private ResponseEntity<String> revokeToken(MultiValueMap<String, String> map) {
+        return execute(revokeTokenUri, map);
+    }
 
+    private ResponseEntity<String> execute(String uri, MultiValueMap<String, String> map) {
+        try {
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, null);
+            ResponseEntity<String> response = restTemplate.postForEntity(uri, request, String.class);
+            return new ResponseEntity<>(response.getBody(), null, response.getStatusCode());
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
+        }
+    }
 
 
 }
