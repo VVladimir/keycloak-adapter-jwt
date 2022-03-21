@@ -26,6 +26,13 @@ public class AccessController {
         return tokenWorker.obtain(loginForm.getUsername(), loginForm.getPassword());
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout() {
+        logger.info("logout: {}", "");
+        String refreshToken = ""; // todo получить из заголовка
+        return tokenWorker.logout(refreshToken);
+    }
+
     @GetMapping("/refresh_token")
     public ResponseEntity<String> refreshToken() {
         String token = getTokenFromCurrentContext();

@@ -10,4 +10,7 @@ public interface TokenWorker {
 
     ResponseEntity<String> revoke(String token);
 
+    ResponseEntity<String> logout(String token);
+
+
 }

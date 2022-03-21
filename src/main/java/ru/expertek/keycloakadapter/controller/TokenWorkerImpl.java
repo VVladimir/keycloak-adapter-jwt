@@ -23,6 +23,8 @@ public class TokenWorkerImpl implements TokenWorker {
     private String accessTokenUri;
     @Value("${spring.security.oauth2.client.revoke-token-uri}")
     private String revokeTokenUri;
+    @Value("${spring.security.oauth2.client.logout-uri}")
+    private String logout;
 
 
     @Override
@@ -57,6 +59,21 @@ public class TokenWorkerImpl implements TokenWorker {
         map.add("client_secret", clientSecret);
 
         return revokeToken(map);
+    }
+
+    @Override
+    public ResponseEntity<String> logout(String token) {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("refresh_token", token);
+        map.add("token_type_hint", "refresh_token");
+        map.add("client_id", clientId);
+        map.add("client_secret", clientSecret);
+
+        return logoutToken(map);
+    }
+
+    private ResponseEntity<String> logoutToken(MultiValueMap<String, String> map) {
+        return execute(logout, map);
     }
 
     private ResponseEntity<String> getToken(MultiValueMap<String, String> map) {

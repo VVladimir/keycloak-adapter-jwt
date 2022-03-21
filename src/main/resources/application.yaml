@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${SERVER_PORT:8081}
 
 
 idp:
@@ -22,6 +22,7 @@ spring:
         client_secret: 8e730d63-911a-4d32-8c15-a52c4be87af4
         access-token-uri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/token
         revoke-token-uri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/revoke
+        logout-uri: ${idp.url}/auth/realms/${idp.realm}/protocol/openid-connect/logout
 
 logging:
   level:
