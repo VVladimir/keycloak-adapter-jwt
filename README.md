@@ -32,3 +32,11 @@ Content-Type: application/json
 
 ### темы для страницы авторизации
 https://github.com/InseeFrLab/keycloakify
+
+### бенчмарки
+бенчмарки
+1. https://github.com/fabric8-services/keycloak-performance-scripts
+2. https://github.com/keycloak/keycloak-benchmark
+
+### Keycloak - сообщество на tlegram
+https://t.me/keycloak_ru
