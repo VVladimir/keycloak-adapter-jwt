@@ -29,3 +29,6 @@ Content-Type: application/json
 GET http://localhost:8080/api/me
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
+
+### темы для страницы авторизации
+https://github.com/InseeFrLab/keycloakify

@@ -26,18 +26,19 @@ public class AccessController {
         return tokenWorker.obtain(loginForm.getUsername(), loginForm.getPassword());
     }
 
-    @GetMapping("/logout")
-    public ResponseEntity<String> logout() {
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody LoginForm loginForm) {
         logger.info("logout: {}", "");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Jwt credentials = (Jwt) auth.getCredentials();
         String refreshToken = ""; // todo получить из заголовка
-        return tokenWorker.logout(refreshToken);
+        return tokenWorker.logout(loginForm.getRefreshToken());
     }
 
-    @GetMapping("/refresh_token")
-    public ResponseEntity<String> refreshToken() {
-        String token = getTokenFromCurrentContext();
-        logger.info("refresh token: {}", token);
-        return tokenWorker.refresh(token);
+    @PostMapping("/refresh_token")
+    public ResponseEntity<String> refreshToken(@RequestBody LoginForm loginForm) {
+        logger.info("refresh token: {}", loginForm.getRefreshToken());
+        return tokenWorker.refresh(loginForm.getRefreshToken());
     }
 
     @GetMapping("/revoke_token")
@@ -49,7 +50,7 @@ public class AccessController {
 
     public String getTokenFromCurrentContext() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final Jwt credentials = (Jwt)auth.getCredentials();
+        final Jwt credentials = (Jwt) auth.getCredentials();
         return credentials.getTokenValue();
     }
 
@@ -61,6 +62,8 @@ public class AccessController {
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER')")
     public String getUserInfo() {
+
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return "user info";
     }
 
